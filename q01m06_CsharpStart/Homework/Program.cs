@@ -69,7 +69,12 @@ void SolutionTask2()
 // Метод решения задачи № 3
 void SolutionTask3()
 {
-
+    System.Console.WriteLine($"Выбрана задача № 3.");
+    int number = InputInteger("Для решения задачи необходимо ввести число.\nВведите число: ");
+    if (number % 2 == 0)
+        System.Console.WriteLine($"Число {number} четное.");
+    else
+        System.Console.WriteLine($"Число {number} нечетное.");
 };
 
 // Метод решения задачи № 4
