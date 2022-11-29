@@ -16,24 +16,31 @@ while(isWork)
     {
         case 1:
             SolutionTask1();
-        break;
+            break;
         case 2:
             SolutionTask2();
-        break;
+            break;
         case 3:
             SolutionTask3();
-        break;
+            break;
         case 4:
             SolutionTask4();
-        break;
+            break;
         default:
             System.Console.WriteLine("Что-то пошло не так! Перезапустите программу.");
-        break;
+            break;
     }
     // Узнать продолжаем или нет
     System.Console.Write("Желаете продолжить решение задач? (enter - ДА, любой другой символ - НЕТ)");
-    if (Console.ReadLine()=="") System.Console.WriteLine("Продолжаем решать.");
-    else {System.Console.WriteLine("Работа программы завершена."); isWork = false;}
+    if (Console.ReadLine() == "")
+    {
+        System.Console.WriteLine("Продолжаем решать.");
+    }
+    else
+    {
+        System.Console.WriteLine("Работа программы завершена.");
+        isWork = false;
+    }
 }
 
 
@@ -80,7 +87,29 @@ void SolutionTask3()
 // Метод решения задачи № 4
 void SolutionTask4()
 {
-    
+    System.Console.WriteLine($"Выбрана задача № 4.");
+    int number = InputInteger("Для решения задачи необходимо ввести число.\nВведите число: ");
+    if (number == 1)                    // случай, когда ввели 1
+    {
+        System.Console.WriteLine("Необходимо число, отличное от 1");
+    }
+    else if (number > 1)                // случай, когда ввели четное правее от 1 - начинаем с двойки и движемся вправо
+    {
+        System.Console.WriteLine($"Четные числа в промежутке с {1} по {number}:");
+        for (int i = 2; i <= number; i+=2)
+        {
+            System.Console.Write($"{i} ");
+        }
+    }
+    else                                // случай, когда ввели четное левее от 1 - начинаем с нуля и движемся влево
+    {
+        System.Console.WriteLine($"Четные числа в промежутке с {1} по {number}:");
+        for (int i = 0; i >= number; i-=2)
+        {
+            System.Console.Write($"{i} ");
+        }
+    }
+    System.Console.WriteLine();         // дополнительный перевод на следующую строку
 };
 
 // Метод ввода int
