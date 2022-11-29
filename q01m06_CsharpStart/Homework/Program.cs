@@ -1,2 +1,65 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Выберите задачу:");
+﻿// Текст приветствия для выбора задачи
+string messageText = "Выберите задачу для решения:\n" +
+        "1. Напишите программу, которая на вход принимает два числа и выдаёт, какое число большее, а какое меньшее.\n" +
+        "2. Напишите программу, которая принимает на вход три числа и выдаёт максимальное из этих чисел.\n" + 
+        "3. Напишите программу, которая на вход принимает число и выдаёт, является ли число чётным (делится ли оно на два без остатка).\n" +
+        "4. Напишите программу, которая на вход принимает число (N), а на выходе показывает все чётные числа от 1 до N.\n" +
+        "Введите номер задачи (одна цифра от 1 по 4):";
+// Выбор номера задачи
+int number = InputInteger(messageText);
+System.Console.WriteLine($"Выбрана задача № {number}.");
+// Разветвление программы, в зависимости от выбранной задачи
+switch (number)
+{
+    case 1:
+        SolutionTask1();
+    break;
+    case 2:
+        SolutionTask2();
+    break;
+    case 3:
+        SolutionTask3();
+    break;
+    case 4:
+        SolutionTask4();
+    break;
+    default:
+        System.Console.WriteLine("Что-то пошло не так! Перезапустите программу.");
+    break;
+}
+
+// Метод решения задачи № 1
+void SolutionTask1()
+{
+    
+};
+
+// Метод решения задачи № 2
+void SolutionTask2()
+{
+    
+};
+
+// Метод решения задачи № 3
+void SolutionTask3()
+{
+    
+};
+
+// Метод решения задачи № 4
+void SolutionTask4()
+{
+    
+};
+
+// Метод ввода int
+int InputInteger(string messageText)
+{
+    bool isNumber = false; int number = -1;
+    while(!isNumber)
+    {
+        System.Console.WriteLine(messageText);
+        isNumber = int.TryParse(Console.ReadLine(), out number);
+    }
+    return number;
+}
