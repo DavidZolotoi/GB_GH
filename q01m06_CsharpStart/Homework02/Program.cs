@@ -151,8 +151,11 @@ void SolutionTask5()
 void SolutionTask6()
 {
     System.Console.WriteLine($"Выбрана задача № 6.");
-
+    int number = new Random().Next(100, 1000);
+    System.Console.WriteLine($"Выбранное случайное трехзначное число {number}");
+    System.Console.WriteLine($"Число, полученное удалением 2-ой цифры {(number / 100) * 10 + number % 10}");
 };
+
 // Метод решения задачи № 7
 void SolutionTask7()
 {
