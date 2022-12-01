@@ -160,7 +160,24 @@ void SolutionTask6()
 void SolutionTask7()
 {
     System.Console.WriteLine($"Выбрана задача № 7.");
-
+    int number = InputInteger("Для решения задачи необходимо ввести число.\nВведите число: ");
+    int count = 0;
+    while(true)
+    {
+        number /= 10;
+        count++;
+        if (count<2 && number==0)
+        {
+            System.Console.WriteLine($"У числа {number} нет третьей цифры.");
+            break;
+        }
+        if (count==2 && number!=0)
+        {
+            System.Console.WriteLine($"{}");
+            break;
+        }
+    }
+    
 };
 // Метод решения задачи № 8
 void SolutionTask8()
