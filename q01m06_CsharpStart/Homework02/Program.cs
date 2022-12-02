@@ -170,7 +170,13 @@ void SolutionTask7()
 void SolutionTask8()
 {
     System.Console.WriteLine($"Выбрана задача № 8.");
-
+    int number = InputInteger("Для решения задачи необходимо ввести число в промежутке [1; 7].\nВведите число: ");
+    if (number < 1 || number > 7)
+        System.Console.WriteLine($"Число {number} не входит в промежуток [1; 7].");
+    else if (number >= 6)
+        System.Console.WriteLine($"День недели № {number} выходной.");
+    else
+        System.Console.WriteLine($"День недели № {number} не выходной.");
 };
 
 // Метод ввода int
