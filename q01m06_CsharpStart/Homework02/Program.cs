@@ -161,10 +161,36 @@ void SolutionTask7()
 {
     System.Console.WriteLine($"Выбрана задача № 7.");
     int number = InputInteger("Для решения задачи необходимо ввести число.\nВведите число: ");
-    if (number / 100 == 0)
-        System.Console.WriteLine($"В числе {number} нет третьей цифры.");
-    else
-        System.Console.WriteLine($"В числе {number}, третья цифра: {number % 10}.");
+    while (number > 0)
+    {
+        if (number / 100 == 0)
+        {
+            System.Console.WriteLine($"В числе {number} нет третьей цифры.");
+            break;
+        }
+        else if (number / 1000 == 0)
+        {
+            System.Console.WriteLine($"Третья цифра введенного числа: {number % 10}.");
+            break;
+        }
+
+        {/* // Способ решения через тернарные операторы. Не совсем подходит, потому что после вывода 3-ей цифры нужно остановить цикл через break
+        // System.Console.WriteLine
+        //     (
+        //         (number / 100 == 0)?
+        //             $"В числе {number} нет третьей цифры."
+        //         :(
+        //             (number / 1000 == 0)?
+        //                 $"Третья цифра введенного числа: {number % 10}."
+        //             :
+        //                 ""
+        //         )
+        //     );
+        */}
+
+        number/=10;
+    }
+
 };
 // Метод решения задачи № 8
 void SolutionTask8()
