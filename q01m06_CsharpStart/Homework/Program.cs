@@ -262,8 +262,10 @@ void SolutionTask10()
 void SolutionTask11()
 {
     System.Console.WriteLine($"Выбрана задача № 11.");
-    int number = InputInteger("Для решения задачи необходимо ввести трехзначное число.\nВведите трехзначное число: ");
-
+    // Вводим
+    int N = InputInteger("Для решения задачи необходимо ввести конечное число N.\nВведите N: ");
+    System.Console.WriteLine($"Таблица кубов чисел от 1 до {N}");
+    TableCubePrint(1, N);
 };
 
 // Метод ввода int
@@ -307,5 +309,11 @@ int ReverseInteger(int value)
 // Метод возведения разницы в квадрат
 double squareDif(double a1, double a2)
 {
-    return (a2-a1)*(a2-a1);
+    return (a2 - a1) * (a2 - a1);
+}
+
+// Метод вывода таблицы кубов
+void TableCubePrint(int a1, int a2)
+{
+    for (int i = a1; i <= a2; i++) System.Console.Write($"{i * i * i} ");
 }
