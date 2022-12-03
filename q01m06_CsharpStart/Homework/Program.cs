@@ -3,21 +3,21 @@ string messageText = "**********************************************************
         "Выберите программу для запуска:\n" +
         "Тема №1. Знакомство с языком программирования С#\n" +
         " 1. Программа, которая на вход принимает два числа и выдаёт, какое число большее, а какое меньшее.\n" +
-        " 2. Программа, которая принимает на вход три числа и выдаёт максимальное из этих чисел.\n" + 
+        " 2. Программа, которая принимает на вход три числа и выдаёт максимальное из этих чисел.\n" +
         " 3. Программа, которая на вход принимает число и выдаёт, является ли число чётным (делится ли оно на два без остатка).\n" +
         " 4. Программа, которая на вход принимает число (N), а на выходе показывает все чётные числа от 1 до N.\n" +
         "Тема №2. Базовые алгоритмы\n" +
         " 5. Программа, которая принимает на вход трёхзначное число и на выходе показывает вторую цифру этого числа. Не использовать строки.\n" +
-        " 6. Программа, которая выводит случайное трёхзначное число и удаляет вторую цифру этого числа. Не использовать строки для расчета.\n" + 
+        " 6. Программа, которая выводит случайное трёхзначное число и удаляет вторую цифру этого числа. Не использовать строки для расчета.\n" +
         " 7. Программа, которая выводит третью цифру заданного числа или сообщает, что третьей цифры нет. . Не использовать строки.\n" +
         " 8. Программа, которая принимает на вход цифру, обозначающую день недели, и проверяет, является ли этот день выходным. Не использовать строки.\n" +
         "Тема №3. Базовые алгоритмы. Продолжение\n" +
         " 9. Программа, которая принимает на вход пятизначное число и проверяет, является ли оно палиндромом. Не использовать строки.\n" +
-        "10. Программа, которая принимает на вход координаты двух точек и находит расстояние между ними в 3D пространстве.\n" + 
+        "10. Программа, которая принимает на вход координаты двух точек и находит расстояние между ними в 3D пространстве.\n" +
         "11. Программа, которая принимает на вход число (N) и выдаёт таблицу кубов чисел от 1 до N.\n" +
         "Введите номер задачи (одна цифра от 1 по 11):";
 bool isWork = true;
-while(isWork)
+while (isWork)
 {
     // Выбор номера задачи
     int number = InputInteger(messageText);
@@ -81,8 +81,8 @@ void SolutionTask1()
     System.Console.WriteLine($"Выбрана задача № 1.");
     int number1 = InputInteger("Для решения задачи необходимо ввести два числа.\nВведите первое число: ");
     int number2 = InputInteger("Введите второе чило:");
-    if (number1==number2) System.Console.WriteLine("Числа равны");
-    else if (number1>number2)
+    if (number1 == number2) System.Console.WriteLine("Числа равны");
+    else if (number1 > number2)
         System.Console.WriteLine($"max = {number1}, min = {number2}");
     else
         System.Console.WriteLine($"max = {number2}, min = {number1}");
@@ -95,9 +95,9 @@ void SolutionTask2()
     int number1 = InputInteger("Для решения задачи необходимо ввести три числа.\nВведите первое число: ");
     int number2 = InputInteger("Введите второе чило:");
     int number3 = InputInteger("Введите третье чило:");
-    if (number1==number2 && number1==number3)
+    if (number1 == number2 && number1 == number3)
         System.Console.WriteLine("Числа равны");
-    else 
+    else
     {
         int max = number1;
         if (max < number2) max = number2;
@@ -129,7 +129,7 @@ void SolutionTask4()
     else if (number > 1)                // случай, когда ввели четное правее от 1 - начинаем с двойки и движемся вправо
     {
         System.Console.WriteLine($"Четные числа в промежутке с {1} по {number}:");
-        for (int i = 2; i <= number; i+=2)
+        for (int i = 2; i <= number; i += 2)
         {
             System.Console.Write($"{i} ");
         }
@@ -137,7 +137,7 @@ void SolutionTask4()
     else                                // случай, когда ввели четное левее от 1 - начинаем с нуля и движемся влево
     {
         System.Console.WriteLine($"Четные числа в промежутке с {1} по {number}:");
-        for (int i = 0; i >= number; i-=2)
+        for (int i = 0; i >= number; i -= 2)
         {
             System.Console.Write($"{i} ");
         }
@@ -199,9 +199,10 @@ void SolutionTask7()
         //                 ""
         //         )
         //     );
-        */}
+        */
+        }
 
-        number/=10;
+        number /= 10;
     }
 
 };
@@ -223,23 +224,19 @@ void SolutionTask8()
 void SolutionTask9()
 {
     System.Console.WriteLine($"Выбрана задача № 9.");
+    // Вводим
     int number = InputInteger("Для решения задачи необходимо ввести число.\nВведите число: ");
-    int temp = number;
-    int numberBack = 0;
-    while(temp > 0)
-    {
-        numberBack = (numberBack * 10) + (temp % 10);
-        temp /= 10;
-    }
-    if (number == numberBack)
+    // Переворачиваем
+    int numberReverse = ReverseInteger(number);
+    // Проверяем
+    if (number == numberReverse)
         System.Console.WriteLine($"Число {number} является палиндромом.");
     else
         System.Console.WriteLine($"Число {number} не является палиндромом.");
-
     // // Способ решения через тернарные операторы
     // System.Console.WriteLine
     // (
-    //     (number == numberBack)?
+    //     (number == numberReverse)?
     //         $"Число {number} является палиндромом."
     //     :
     //         $"Число {number} не является палиндромом."
@@ -266,10 +263,24 @@ void SolutionTask11()
 int InputInteger(string messageText)
 {
     bool isNumber = false; int number = -1;
-    while(!isNumber)
+    while (!isNumber)
     {
         System.Console.WriteLine(messageText);
         isNumber = int.TryParse(Console.ReadLine(), out number);
     }
     return number;
+}
+
+// Метод реверса int
+int ReverseInteger(int value)
+{
+    bool sign = value >= 0;
+    value = Math.Abs(value);
+    int valueRserve = 0;
+    while (value > 0)
+    {
+        valueRserve = (valueRserve * 10) + (value % 10);
+        value /= 10;
+    }
+    return sign ? valueRserve : -valueRserve;
 }
