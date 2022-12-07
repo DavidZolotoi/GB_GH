@@ -12,7 +12,7 @@ cd D:\Catalog\Csharp\GB\gb_gh\q01m06_CsharpStart
 md %2
 cd %2
 dotnet new console
-git add .
-git commit -m %3
+rem git add .
+rem git commit -m %3
 rem git push
 git branch
