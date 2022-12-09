@@ -1,0 +1,19 @@
+rem Создание новой ветки Homework05 и переход в нее, создание новой папки Homework05_01 и переход в нее,
+rem создание пустого проекта в ней, зафиксить изменения, закоммитить и отправить в github
+rem в качестве 1-го аргумента (%1) название новой ветки (Homework05)
+rem в качестве 2-го аргумента (%2) название новой папки (Homework05_01)
+rem в качестве 3-го аргумента (%3) комментарий для коммита (пример на следующей строке)
+rem "Создал ветку для работ урока № 5 - Функции и одномерные массивы. Создал пустой проект для задачи №1."
+
+d:
+cd D:\Catalog\Csharp\GB\gb_gh
+git branch %1
+git checkout %1
+cd D:\Catalog\Csharp\GB\gb_gh\q01m06_CsharpStart
+md %2
+cd %2
+dotnet new console
+git add .
+git commit -m %3
+git push --set-upstream origin %1
+git branch
