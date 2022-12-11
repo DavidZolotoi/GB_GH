@@ -1,3 +1,3 @@
 echo off
 echo ".bat files:
-1.gitAddCommitPush.bat ^"...^" -> git add, commit, push"
+1.AddCommitPush.bat ^"...^" -> git add, commit, push"

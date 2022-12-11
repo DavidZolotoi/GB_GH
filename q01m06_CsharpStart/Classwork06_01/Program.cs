@@ -24,7 +24,9 @@ int[] ReverseArray(int[] array)
 {
     for (int i = 0; i < array.Length / 2; i++)
     {
-        swap2(array, i, array.Length - 1 - i);
+        swap1(array, i, array.Length - 1 - i);  // поменяли
+        swap2(array, i, array.Length - 1 - i);  // вернули
+        swap1(array, i, array.Length - 1 - i);  // снова поменяли, чтоб в выводе было видно
     }
     return array;
 }
