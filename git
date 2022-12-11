@@ -1,0 +1,5 @@
+[main 534e046] ...
+ 5 files changed, 4 insertions(+), 21 deletions(-)
+ rename 1.gitAddCommitPush.bat => 1.AddCommitPush.bat (100%)
+ rename CreateNewHomewrokTask.bat => 2.CreateNewHomewrokTask.bat (100%)
+ delete mode 100644 CreateNewBranch.txt
