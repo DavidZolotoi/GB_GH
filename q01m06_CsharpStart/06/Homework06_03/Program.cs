@@ -63,7 +63,6 @@ void PrintArray2(int[,] array)
     {
         for (int j = 0; j < array.GetLength(1); j++)             // движение по колонкам
         {
-            array[i, j] = new Random().Next(0, 10);
             System.Console.Write($"{array[i, j]}\t");
         }
         System.Console.WriteLine();
