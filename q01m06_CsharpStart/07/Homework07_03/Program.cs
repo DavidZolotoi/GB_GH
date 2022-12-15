@@ -3,8 +3,7 @@ Console.WriteLine("Задача 3. Задайте двумерный масси�
 (int m, int n) sizeArray = (new Random().Next(5, 10), new Random().Next(5, 10)); // Размеры массива
 int[,] array = GetRandomIntArray2(sizeArray.m, sizeArray.n);
 PrintArray2(array);
-GetColumnAvg(array);
-
+PrintArray1("Средние арифметическиt по колонкам:", GetColumnAvg(array));
 
 // Метод, возвращающий массив средних арифм. по столбцам от двумерного массива
 double[] GetColumnAvg(int[,] array)
@@ -18,7 +17,6 @@ double[] GetColumnAvg(int[,] array)
                 avg[i] += array[j, i];
         }
         avg[i] = avg[i] / (double)array.GetLength(0);
-        System.Console.Write($"{avg[i]:f2}\t");
     }
     return avg;
 }
@@ -42,4 +40,11 @@ void PrintArray2(int[,] array)
         for (int j = 0; j < array.GetLength(1); j++) System.Console.Write($"{array[i, j]}\t");  // движение по колонкам (вправо) + вывод
         System.Console.WriteLine();
     }
+}
+
+// Метод вывода 1мерного массива double
+void PrintArray1(string message, double[] array)
+{
+    System.Console.WriteLine(message);
+    for (int i = 0; i < array.Length; i++) System.Console.Write($"{array[i]:f2}\t");
 }
