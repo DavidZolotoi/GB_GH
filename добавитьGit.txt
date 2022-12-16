@@ -1,0 +1,4 @@
+git checkout -b Homework07 origin/Homework07
+
+1-ый Homework07 - это создание локальной ветки - может быть любым
+2-ой - это удаленная
