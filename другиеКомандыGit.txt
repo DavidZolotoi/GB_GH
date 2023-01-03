@@ -14,3 +14,7 @@ git checkout -b Homework07 origin/Homework07
 git reset --hard HEAD~1
 git push -f 
 @rem опасно при работе в коллективе
+
+@rem ////////////////////////////////////
+@rem Удаление локальной ветки
+git branch -d <имя ветки>
