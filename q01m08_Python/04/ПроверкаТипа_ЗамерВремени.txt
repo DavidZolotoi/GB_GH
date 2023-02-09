@@ -1,0 +1,4 @@
+# проверка типа isinstanse(перем, int)
+
+# земер времени python -m cProfile -s time prof.py 10001
+
