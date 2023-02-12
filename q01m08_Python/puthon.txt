@@ -1,0 +1,11 @@
+isinstance(<перемен>, <тип>)
+
+[i for i in range(5)]
+[[j for j in range(5)] for i in range(5)] - двумерный лист 5х5
+
+if __name__ == '__main__':
+	main()
+
+from myFunc import sum as my_sum
+
+проверку через in лучше делать в множестве set(list)
