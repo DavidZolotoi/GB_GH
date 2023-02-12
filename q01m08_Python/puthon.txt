@@ -9,3 +9,5 @@ if __name__ == '__main__':
 from myFunc import sum as my_sum
 
 проверку через in лучше делать в множестве set(list)
+
+земер времени python -m cProfile -s time prof.py 10001
