@@ -1,0 +1,32 @@
+isinstance(<перемен>, <тип>)
+
+[i for i in range(5)]
+[[j for j in range(5)] for i in range(5)] - двумерный лист 5х5
+
+a = "yes" if (...) else "no" - тернарный оператор
+
+if __name__ == '__main__':
+	main()
+
+# работа с кортежами
+korteg = ()
+korteg = (1, 5)
+korteg[0], korteg[1]
+
+from myFunc import sum as my_sum
+
+проверку через in лучше делать в множестве set(list)
+
+земер времени python -m cProfile -s time prof.py 10001
+
+# ввод списка через пробел
+my_list = list(map(int, input().split()))
+
+# фильтр
+my_list2 = list(filter(lambda x: x%2 == 0, my_list))
+
+# энумерат- получает список из еортежей (индекс, значение)
+enumerate(my_list) # все это обжект, лучше засунуть в list
+
+# zip - склеивает разные списки a, b, c в список кортежей [...a(i), b(i), c(i)...]
+zip(a, b, c)
