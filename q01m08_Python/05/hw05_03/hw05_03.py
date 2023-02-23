@@ -1,21 +1,65 @@
+import os
 import random
 
 # КОНСТАНТЫ:
 X = 'X'
 O = 'O'
 
+# первоначальное заполнение списка строк и прорисовка сетки
+def GetFillTextList():
+    textOutput = []
+    textOutput.append(" _____________        _____________ ")       #  0
+    textOutput.append(" |   |   |   |        |   |   |   | ")       #  1
+    textOutput.append(" |   |   |   |        | 1 | 2 | 3 | ")       #  2
+    textOutput.append(" |___|___|___|        |___|___|___| ")       #  3
+    textOutput.append(" |   |   |   |        |   |   |   | ")       #  4
+    textOutput.append(" |   |   |   |        | 4 | 5 | 6 | ")       #  5
+    textOutput.append(" |___|___|___|        |___|___|___| ")       #  6
+    textOutput.append(" |   |   |   |        |   |   |   | ")       #  7
+    textOutput.append(" |   |   |   |        | 7 | 8 | 9 | ")       #  8
+    textOutput.append(" |___|___|___|        |___|___|___| ")       #  9
+    textOutput.append("                                    ")       # 10 итого 11 строк
+    return textOutput
 # вывод состояния
-def Output_XO(list_XO):
-    print("_________________________        _________________________")
-    print("|       |       |       |        |       |       |       |")
-    print("|   " + list_XO[0][0] + "   |   " + list_XO[0][1] + "   |   " + list_XO[0][2] + "   |        |   1   |   2   |   3   |")
-    print("|_______|_______|_______|        |_______|_______|_______|")
-    print("|       |       |       |        |       |       |       |")
-    print("|   " + list_XO[1][0] + "   |   " + list_XO[1][1] + "   |   " + list_XO[1][2] + "   |        |   4   |   5   |   6   |")
-    print("|_______|_______|_______|        |_______|_______|_______|")
-    print("|       |       |       |        |       |       |       |")
-    print("|   " + list_XO[2][0] + "   |   " + list_XO[2][1] + "   |   " + list_XO[2][2] + "   |        |   7   |   8   |   9   |")
-    print("|_______|_______|_______|        |_______|_______|_______|")
+def Output_XO():
+    textOutput[2] = textOutput[2][0:3] + list_XO[0][0] + textOutput[2][4:7] + list_XO[0][1] + textOutput[2][8:11] + list_XO[0][2] + textOutput[2][12:]
+    textOutput[5] = textOutput[5][0:3] + list_XO[1][0] + textOutput[5][4:7] + list_XO[1][1] + textOutput[5][8:11] + list_XO[1][2] + textOutput[5][12:]
+    textOutput[8] = textOutput[8][0:3] + list_XO[2][0] + textOutput[8][4:7] + list_XO[2][1] + textOutput[8][8:11] + list_XO[2][2] + textOutput[8][12:]
+    print("\n" + "\n".join(textOutput))
+# вертикальное перечеркивание
+def Output_LineVertical(columnForLine):
+    for i in [0,1,3,4,6,7,9,10]:
+        textOutput[0] =   textOutput[0][0:columnForLine] + "|" +  textOutput[0][columnForLine+1:]
+        textOutput[1] =   textOutput[1][0:columnForLine] + "|" +  textOutput[1][columnForLine+1:]
+        textOutput[3] =   textOutput[3][0:columnForLine] + "|" +  textOutput[3][columnForLine+1:]
+        textOutput[4] =   textOutput[4][0:columnForLine] + "|" +  textOutput[4][columnForLine+1:]
+        textOutput[6] =   textOutput[6][0:columnForLine] + "|" +  textOutput[6][columnForLine+1:]
+        textOutput[7] =   textOutput[7][0:columnForLine] + "|" +  textOutput[7][columnForLine+1:]
+        textOutput[9] =   textOutput[9][0:columnForLine] + "|" +  textOutput[9][columnForLine+1:]
+        textOutput[10] = textOutput[10][0:columnForLine] + "|" + textOutput[10][columnForLine+1:]
+# горизонтальное перечеркивание
+def Output_LineHorizontal(rowForLine, list_XO1, list_XO2, list_XO3):
+        textOutput[rowForLine] = "-|-" + list_XO1 + "-|-" + list_XO2 + "-|-" + list_XO3 + "-|-" + textOutput[rowForLine][15:]
+# перечеркивание по главной диагонали
+def Output_LineDiagonal1(txtOut):
+    simbol1 = 0
+    for line1 in range(0, 10, +3):
+         line2 = line1 + 1
+         simbol2 = simbol1 + 2
+         b = "\\"
+         textOutput[line1] = f"{txtOut[line1][0:(simbol1)]}{b}{txtOut[line1][(simbol1+1):]}"
+         textOutput[line2] = f"{txtOut[line2][0:(simbol2)]}{b}{txtOut[line2][(simbol2+1):]}"
+         simbol1 += 4
+# перечеркивание по обратной диагонали
+def Output_LineDiagonal2(txtOut):
+    simbol1 = 14
+    for line1 in range(0, 10, +3):
+         line2 = line1 + 1
+         simbol2 = simbol1 - 2
+         b = "/"
+         textOutput[line1] = f"{txtOut[line1][0:(simbol1)]}{b}{txtOut[line1][(simbol1+1):]}"
+         textOutput[line2] = f"{txtOut[line2][0:(simbol2)]}{b}{txtOut[line2][(simbol2+1):]}"
+         simbol1 -= 4
 # выбор символа
 def InputSimbol():
     isInputSimb = True
@@ -55,6 +99,7 @@ def DrawBotPlayer():
     return isBot
 # выбор клетки для ввода ботом, будет вложена в MoveMade в виде аргумента FuncCellNumber
 def GenerateCellNumber(simb, emptyCell):
+        os.system('cls||clear')
         cellNumber = int(emptyCell[random.randint(0, len(emptyCell))-1])     # номер клетки
         print(f"\nЯ поставил {simb} в {cellNumber} клетку.")
         return cellNumber
@@ -77,29 +122,38 @@ def MoveMade(simb, emptyCell, FuncCellNumber):
             cellNumber = FuncCellNumber(simb, emptyCell)
             rowNumber = int(cellNumber / 3.5)     # номер строки
             columnNumber = (cellNumber + 2) % 3   # номер столбца
-            isMoveMade = not (list_XO[rowNumber][columnNumber] == ' ')
+            isMoveMade = not (list_XO[rowNumber][columnNumber] == " ")
         list_XO[rowNumber][columnNumber] = simb
-        emptyCell = emptyCell.replace(str(cellNumber), '')
+        emptyCell = emptyCell.replace(str(cellNumber), "")
         return emptyCell
 # функция проверки на GameOver
 def CheckGameOver():
-    if     ((list_XO[0][0] == list_XO[0][1] and list_XO[0][1] == list_XO[0][2] and list_XO[0][2] != ' ')
-        or  (list_XO[1][0] == list_XO[1][1] and list_XO[1][1] == list_XO[1][2] and list_XO[1][2] != ' ')
-        or  (list_XO[2][0] == list_XO[2][1] and list_XO[2][1] == list_XO[2][2] and list_XO[2][2] != ' ')
-        or  (list_XO[0][0] == list_XO[1][0] and list_XO[1][0] == list_XO[2][0] and list_XO[2][0] != ' ')
-        or  (list_XO[0][1] == list_XO[1][1] and list_XO[1][1] == list_XO[2][1] and list_XO[2][1] != ' ')
-        or  (list_XO[0][2] == list_XO[1][2] and list_XO[1][2] == list_XO[2][2] and list_XO[2][2] != ' ')
-        or  (list_XO[0][0] == list_XO[1][1] and list_XO[1][1] == list_XO[2][2] and list_XO[2][2] != ' ')
-        or  (list_XO[0][2] == list_XO[1][1] and list_XO[1][1] == list_XO[2][0] and list_XO[2][0] != ' ')):
+    # проверка на горизонтальные перечеркивания
+    for i in [0,1,2]:
+        if (list_XO[i][0] == list_XO[i][1] and list_XO[i][1] == list_XO[i][2] and list_XO[i][2] != " "):
+            Output_LineHorizontal(i * 3 + 2, list_XO[i][0], list_XO[i][1], list_XO[i][2])
+            return True
+    # проверка на вертикальные перечеркивания
+    for i in [0,1,2]:
+        if (list_XO[0][i] == list_XO[1][i] and list_XO[1][i] == list_XO[2][i] and list_XO[2][i] != " "):
+            Output_LineVertical(i * 4 + 3)
+            return True
+    if (list_XO[0][0] == list_XO[1][1] and list_XO[1][1] == list_XO[2][2] and list_XO[2][2] != " "):
+        Output_LineDiagonal1(textOutput)
         return True
+    if (list_XO[0][2] == list_XO[1][1] and list_XO[1][1] == list_XO[2][0] and list_XO[2][0] != " "):
+        Output_LineDiagonal2(textOutput)
+        return True
+        
 
-list_XO =   [[' ', ' ', ' '],
-             [' ', ' ', ' '],
-             [' ', ' ', ' ']]
+list_XO =   [[" ", " ", " "],
+             [" ", " ", " "],
+             [" ", " ", " "]]
+textOutput = GetFillTextList()
 
-simb1 = InputSimbol()           # simb1 - игрок, simb2 - бот
+simb1 = InputSimbol()       # simb1 - игрок, simb2 - бот
 simb2 = X if (simb1 == O) else O
-Output_XO(list_XO)
+Output_XO()
 isBot = DrawBotPlayer()     # переключатель игрока (True - ход бота, False - ход пользователя)
 simb = simb2 if (isBot) else simb1
 isGameOver = False
@@ -110,14 +164,16 @@ while not isGameOver:
     else:
         emptyCell = MoveMade(simb, emptyCell, InputCellNumber)
     if (CheckGameOver()):
+        os.system('cls||clear')
         if (simb == simb1):
             print("Поздравляю! Вы победили!!!")
         else:
             print("Вы проиграли.")
         isGameOver = True
     if (not isGameOver) and (len(emptyCell) == 0):
+        os.system('cls||clear')
         print("У нас ничья :)")
         isGameOver = True
-    Output_XO(list_XO)
+    Output_XO()
     isBot = not isBot
     simb = simb2 if (isBot) else simb1
