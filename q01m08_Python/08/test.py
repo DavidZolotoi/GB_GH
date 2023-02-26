@@ -1,0 +1,6 @@
+mySet = set([i for i in range(10)])
+mySet.add(9)
+print(mySet)
+mylist = list(mySet)
+print(mylist)
+mySet = set(mylist)
