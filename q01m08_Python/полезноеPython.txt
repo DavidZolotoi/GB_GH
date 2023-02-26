@@ -1,3 +1,6 @@
+os.path.abspath(__file__) - путь к исполняемому файлу python
+os.path.dirname(os.path.normpath(os.path.abspath(__file__))) - путь к родителю исполняемого файла python
+
 isinstance(<перемен>, <тип>)
 
 [i for i in range(5)]
