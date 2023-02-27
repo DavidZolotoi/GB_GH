@@ -129,7 +129,7 @@ def ImportContacts(filePath):
     fileParent = (os.path.dirname(os.path.normpath(filePath)))
     sep = "/" if ("/" in filePath) else "\\"
     defaultPathForImport = fileParent + sep + "FileForImport.csv"
-    importFilePath = input(f"Введите путь к файлу csv для импортирования данных с файла.\n(0 - ввод адреса по умолчанию: '{defaultPathForImport}') ")
+    importFilePath = input(f"Введите путь к файлу csv для импортирования данных с файла.\n(Enter -  ввод адреса по умолчанию: '{defaultPathForImport}') ")
     if importFilePath == "": importFilePath = defaultPathForImport
     if (not os.path.exists(importFilePath)):
         report = f"Неверный адрес файла: {importFilePath}"
