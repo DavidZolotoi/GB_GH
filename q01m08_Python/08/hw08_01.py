@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 
 def GetFilePath(fileName):
@@ -111,11 +112,35 @@ def EditContact(filePath):
 
 def ExportContacts(filePath):
     """Пункт меню. Экспортировать контакты"""
-    pass
+    myList = GetMyList(filePath)                            # данные для экспорта в файл
+    dateName = "Phonebook_" + str(datetime.now()).replace(" ", "").replace("-", "").replace(".", "").replace(":", "") + ".csv"
+    fileParent = (os.path.dirname(os.path.normpath(filePath)))
+    sep = "/" if ("/" in filePath) else "\\"
+    exportFilePath = fileParent + sep + dateName                    # имя экспортного файла
+    CreateFile(exportFilePath)                                      # создание файла - на всякий - необязательно
+    with open(exportFilePath, "a+", encoding="utf-8") as myFile:    # запись данных в файл
+            myFile.write("".join(myList))
+    report = f"Выполнен экспорт в файл: {exportFilePath}"
+    tmp = exportFilePath
+    return report, tmp
 
 def ImportContacts(filePath):
     """Пункт меню. Импортировать контакты"""
-    pass
+    fileParent = (os.path.dirname(os.path.normpath(filePath)))
+    sep = "/" if ("/" in filePath) else "\\"
+    defaultPathForImport = fileParent + sep + "FileForImport.csv"
+    importFilePath = input(f"Введите путь к файлу csv для импортирования данных с файла.\n(0 - ввод адреса по умолчанию: '{defaultPathForImport}') ")
+    if importFilePath == "": importFilePath = defaultPathForImport
+    if (not os.path.exists(importFilePath)):
+        report = f"Неверный адрес файла: {importFilePath}"
+        tmp = "Error"
+        return report, tmp
+    listFromImport = GetMyList(importFilePath)
+    with open(filePath, "a+", encoding="utf-8") as myFile:
+        myFile.write("".join(listFromImport))
+    report = f"Данные из файла '{importFilePath}' импортированы."
+    tmp = importFilePath
+    return report, tmp
 
 def ExitProgram(filePath):
     """Пункт меню. Завершить программу через стандартный механизм выброса исключения"""
