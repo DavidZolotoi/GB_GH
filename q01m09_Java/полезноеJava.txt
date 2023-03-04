@@ -1,0 +1,8 @@
+static String inputStr(String messeage)
+    {
+        System.out.print(messeage);
+        Scanner scanner = new Scanner(System.in);
+        String inputUser = scanner.nextLine();
+        scanner.close();
+        return inputUser;
+    }
