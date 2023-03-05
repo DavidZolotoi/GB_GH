@@ -9,7 +9,7 @@ public class hw01_03 {
         Scanner scanner = new Scanner(System.in);
         
         Double operand1 = GetInputDouble(scanner, "Введите первый операнд: ");
-        Character operation = GetInputTxt(scanner, "Выберите операцию (+-*/): ");
+        Character operation = GetInputChar(scanner, "Выберите операцию (+-*/): ");
         Double operand2 = GetInputDouble(scanner, "Введите второй операнд: ");
         Double result = GetResult(operand1, operand2, operation);
         System.out.printf("%.2f %s %.2f = %.2f", operand1, operation, operand2, result);
@@ -18,6 +18,7 @@ public class hw01_03 {
         scanner.close();
     }
 
+    // Выполнение действия
     private static Double GetResult(Double operand1, Double operand2, Character operation) {
         Double result = 0d;
         switch (operation) {
@@ -49,7 +50,7 @@ public class hw01_03 {
     }
     
     // Ввод текста
-    private static char GetInputTxt(Scanner scanner, String message){
+    private static char GetInputChar(Scanner scanner, String message){
         // здесь в будущем стоит обработать исключения
         Boolean isInput = true;
         char inputTxt = '+';
