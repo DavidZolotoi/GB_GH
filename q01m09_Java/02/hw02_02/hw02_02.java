@@ -1,5 +1,8 @@
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 /*
  * Реализуйте алгоритм сортировки пузырьком числового массива,
  * результат после каждой итерации запишите в лог-файл.
@@ -12,25 +15,72 @@ public class hw02_02
         LinkedList<Integer> integerList = GenerateArrayListInteger(20, -10, 10);
         // вывод исходного листа
         System.out.printf("Сгенерирован массив: \n%s\n", OutputList(integerList, "  "));
+        // путь к файлу логов
+        String fileLogPath = GetPathForLogFile();
         // вывод отсортированного листа пузырьком
-        System.out.printf("Сортированный массив: \n%s\n", OutputList(BubbleSort(integerList), "  "));
+        System.out.printf("Сортированный массив: \n%s\n", OutputList(BubbleSort(integerList, fileLogPath), "  "));
     }
 
-    // Сортировка листа пузырьком методами добавления и удаления элементов класса LinkedList
-    private static LinkedList<Integer> BubbleSort(LinkedList<Integer> integerList)
+    // Сортировка листа пузырьком методами добавления и удаления элементов класса LinkedList с логированием
+    private static LinkedList<Integer> BubbleSort(LinkedList<Integer> integerList, String fileLogPath)
     {
-        for (int i = 0; i < integerList.size(); i++)
+        Logger logger = Logger.getLogger(hw02_02.class.getName());
+        try
         {
-            for (int j = 1; j < integerList.size() - i; j++)
+            FileHandler fileLog = new FileHandler(fileLogPath);  
+            logger.setUseParentHandlers(false);
+            logger.addHandler(fileLog);
+            logger.info("Начало сортировки.");  
+            for (int i = 0; i < integerList.size(); i++)
             {
-                if (integerList.get(j - 1) > integerList.get(j))        // нашли пару для замены
+                logger.info(i + "-й проход."); 
+                for (int j = 1; j < integerList.size() - i; j++)
                 {
-                    integerList.add(j + 1, integerList.get(j - 1));     // добавили справа от пары больший
-                    integerList.remove(j - 1);                          // удалили больший слева
+                    if (integerList.get(j - 1) > integerList.get(j))        // нашли пару для замены
+                    {
+                        integerList.add(j + 1, integerList.get(j - 1));     // добавили справа от пары больший
+                        integerList.remove(j - 1);                          // удалили больший слева
+                        logger.warning("Произошла замена номеров " + j + " и " + (j - 1) + ";");
+                    }
                 }
+                logger.info(i + 1 + "-ый наибольший определен -> " + integerList.get(integerList.size() - i)); 
             }
+            logger.info("Закончили сортировать."); 
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
         }
         return integerList;
+    }
+
+    private static String GetPathForLogFile()
+    {
+        String fileLogPath = "";
+        try
+        {
+            // путь к файлу
+            String pathFileJava = Class.forName("hw02_02").getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            // сепоратор, который есть в этом пути
+            String seporator1 = (pathFileJava.indexOf("/") > -1)?"/":"\\";
+            // родительский каталог
+            String pathParent = pathFileJava.substring(0, pathFileJava.lastIndexOf(seporator1) + 1);
+            // путь к файлу логов
+            fileLogPath = pathParent + "MyLogFile.log";
+            File myLogFile = new File(fileLogPath);
+            if (!myLogFile.exists()) myLogFile.createNewFile();
+            // сепоратор, который есть в пути к файлу логов (он скорее всего отличается от того, что выше)
+            String seporator2 = (myLogFile.getAbsolutePath().indexOf("\\") > -1)?"\\":"/";
+            fileLogPath = fileLogPath.replace(seporator1, seporator2);  
+            // если в пути к созданному файлу логов первый символ не дробь, то и в переменной пути его не должно быть
+            if (fileLogPath.substring(0, 1).equals(seporator2))
+                fileLogPath = fileLogPath.substring(1, fileLogPath.length());
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return fileLogPath;
     }
 
     // Вывод массива в строку с сепоратором

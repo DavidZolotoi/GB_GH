@@ -9,3 +9,8 @@ static String inputStr(String messeage)
 
 
 удалить конкретный символ: ОбъектСтрингБилдер.deleteCharAt(номер)
+
+путь к файлу:
+Возвращает стринг.
+Class.forName("test").getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+где test - имя вашего класса
