@@ -6,3 +6,6 @@ static String inputStr(String messeage)
         scanner.close();
         return inputUser;
     }
+
+
+удалить конкретный символ: ОбъектСтрингБилдер.deleteCharAt(номер)
