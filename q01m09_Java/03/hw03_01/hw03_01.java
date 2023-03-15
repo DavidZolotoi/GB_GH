@@ -1,10 +1,10 @@
 import java.io.File;
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
 
 /*
  * Реализовать алгоритм сортировки слиянием
@@ -19,90 +19,98 @@ public class hw03_01
         // Логгер
         Logger logger = GetLogger(fileLogPath);
         // генерация листа
-        LinkedList<Integer> integerList = GenerateArrayListInteger(20, -10, 10);
+        Integer[] integerList = GenerateArrayInteger(20, -10, 10, logger);
         // вывод исходного листа
-        System.out.printf("Сгенерирован массив: \n%s\n", OutputList(integerList, "  "));
+        System.out.printf("Сгенерированный массив: \n%s\n", OutputList(integerList, "  ", logger));
         // вывод отсортированного листа пузырьком
-        System.out.printf("Сортированный массив: \n%s\n", OutputList(MergeSort(integerList, logger), "  "));
+        System.out.printf("Сортированный массив: \n%s\n", OutputList(MergeSort(integerList, logger), "  ", logger));
+        
+        logger.info("Работа программы завершена.");
     }
     
-    // Сортировка слиянием методами класса LinkedList с логированием
-    private static LinkedList<Integer> MergeSort(LinkedList<Integer> integerList, Logger logger) {
-        logger.info("Начало метода сортировки.");
-
-        Integer oldListLength = integerList.size();
+    // Сортировка слиянием с логированием
+    private static Integer[] MergeSort(Integer[] integerList, Logger logger)
+    {
+        logger.info("Начало работы метода сортировки слиянием (рекурсия).");
+        
+        Integer oldListLength = integerList.length;
         if (oldListLength == 1) return integerList;
-
+        
         Integer newListLength = oldListLength / 2;
-        LinkedList<Integer> newListLeft = new LinkedList<>();
-        LinkedList<Integer> newListRight = new LinkedList<>();
+        Integer[] newListLeft = new Integer[newListLength];
+        Integer[] newListRight = new Integer[oldListLength - newListLength];
         for (int i = 0; i < newListLength; i++)
-            newListLeft.add(i, integerList.get(i));
+            newListLeft[i] = integerList[i];
         for (int i = newListLength; i < oldListLength; i++) 
-            newListRight.add(i - newListLength, integerList.get(i));
-
+            newListRight[i - newListLength] = integerList[i];
+        
         // Рекурсия
         MergeSort(newListLeft, logger);
         MergeSort(newListRight, logger);
-        Merge(integerList, newListLeft, newListRight);
+        Merge(integerList, newListLeft, newListRight, logger);
 
-        logger.info("Конец метода сортировки.");
+        logger.info("Конец работы метода сортировки слиянием (рекурсия).");
         return integerList;
     }
 
-    // 
-    private static void Merge(  LinkedList<Integer> integerList,
-                                LinkedList<Integer> newListLeft,
-                                LinkedList<Integer> newListRight)
+    // Метод слияния массивов, созданных в результате рекурсии
+    private static void Merge(  Integer[] integerList,
+                                Integer[] newListLeft,
+                                Integer[] newListRight, Logger logger)
     {
-        Integer listLeftCount = newListLeft.size();
-        Integer listRightCount = newListRight.size();
+        logger.info("Начало работы метода слияния массивов, созданных в результате рекурсии.");
+        Integer listLeftCount = newListLeft.length;
+        Integer listRightCount = newListRight.length;
         Integer indexLeft = 0;
         Integer indexRight = 0;
         Integer indexList = 0;
 
         while (indexLeft < listLeftCount && indexRight < listRightCount)
         {
-            if (newListLeft.get(indexLeft) < newListRight.get(indexRight))
+            if (newListLeft[indexLeft] < newListRight[indexRight])
             {
-                integerList.add(indexList, newListLeft.get(indexLeft));
+                integerList[indexList] = newListLeft[indexLeft];
                 indexLeft++;
             }
             else
             {
-                integerList.add(indexList, newListRight.get(indexRight));
+                integerList[indexList] = newListRight[indexRight];
                 indexRight++;
             }
             indexList++;
-
-            for (int i = indexLeft; i < listLeftCount; i++)
-                newListLeft.add(indexList++, newListLeft.get(i));
-            for (int i = indexRight; i < listRightCount; i++) 
-                newListRight.add(indexList++, newListRight.get(i));
         }
+
+        for (int i = indexLeft; i < listLeftCount; i++)
+            integerList[indexList++] = newListLeft[i];
+        for (int j = indexRight; j < listRightCount; j++) 
+            integerList[indexList++] = newListRight[j];
+        logger.info("Конец работы метода слияния массивов, созданных в результате рекурсии.");
     }
 
     // Вывод массива в строку с сепоратором
-    private static String OutputList(LinkedList<Integer> integerList, String seporator)
+    private static String OutputList(Integer[] integerList, String seporator, Logger logger)
     {
+        logger.info("Начало работы метода вывода массива в строку.");
         StringBuilder outputText = new StringBuilder("");
-        for (int i = 0; i < integerList.size(); i++)
+        for (int i = 0; i < integerList.length; i++)
         {
-            outputText.append(integerList.get(i).toString());
-            if (i != integerList.size() - 1) outputText.append(seporator);
+            outputText.append(integerList[i].toString());
+            if (i != integerList.length - 1) outputText.append(seporator);
         }
+        logger.info("Конец работы метода вывода массива в строку.");
         return outputText.toString();
     }
 
-    // Генерация листа интеджеров
-    private static LinkedList<Integer> GenerateArrayListInteger(Integer count, Integer minValue, Integer maxValue)
+    // Генерация массива интеджеров
+    private static Integer[] GenerateArrayInteger(Integer count, Integer minValue, Integer maxValue, Logger logger)
     {
-        LinkedList<Integer> integerList = new LinkedList<>();
+        logger.info("Начало работы метода генерации массива.");
+        Integer[] integerArray = new Integer[count];
         Random rnd = new Random();
         for (int i = 0; i < count; i++)
-            integerList.add(minValue + rnd.nextInt(maxValue - minValue + 1));
-
-        return integerList;
+            integerArray[i] = minValue + rnd.nextInt(maxValue - minValue + 1);
+        logger.info("Конец работы метода генерации массива.");
+        return integerArray;
     }
 
     // Возврат логгера
@@ -123,6 +131,7 @@ public class hw03_01
             System.out.println("Не удалось создать логгер.");
             System.out.println(e.getMessage());
         }
+        logger.info("Программа стартовала. Создан логгер.");
         return logger;
     }
     
