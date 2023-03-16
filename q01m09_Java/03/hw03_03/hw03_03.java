@@ -1,5 +1,7 @@
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
@@ -7,7 +9,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /*
- * Пусть дан произвольный список целых чисел, удалить из него чётные числа
+ * Задан целочисленный список ArrayList.
+ * Найти минимальное, максимальное и среднее из этого списка.
  */
 
 public class hw03_03
@@ -22,21 +25,41 @@ public class hw03_03
         LinkedList<Integer> integerList = GenerateArrayListInteger(20, -10, 10, logger);
         // вывод исходного листа
         System.out.printf("Сгенерированный массив: \n%s\n", OutputList(integerList, "  ", logger));
-        // вывод листа, из которого удалены все четные позиции
-        System.out.printf("Обработанный массив: \n%s\n", OutputList(DelEvenValue(integerList, logger), "  ", logger));
+        // вывод посчитанных параметров
+        Map<String, Double> someValueFromList = GetMapSomeValueFromList(integerList, logger);
+        System.out.printf("Минимальное значение: \t%s\n", someValueFromList.get("min"));
+        System.out.printf("Максимальное значение: \t%s\n", someValueFromList.get("max"));
+        System.out.printf("Сумма значений:   \t%s\n", someValueFromList.get("sum"));
+        System.out.printf("Среднее значение:   \t%s\n", someValueFromList.get("avg"));
     
         logger.info("Конец работы программы.");
     }
     
-    // Удаление четных чисел
-    private static LinkedList<Integer> DelEvenValue(LinkedList<Integer> integerList, Logger logger)
+    // Метод поиска минимального, максимального и среднего из списка.
+    private static Map<String, Double> GetMapSomeValueFromList(LinkedList<Integer> integerList, Logger logger)
     {
-        logger.info("Начало работы метода удаления четных чисел.");
+        logger.info("Начало работы метода поиска минимального, максимального и среднего из списка.");
 
-        // ОБРАБОТКА
+        Map<String, Double> someValueFromList = new HashMap<String, Double>();
+        Double minFromList = integerList.get(0).doubleValue();
+        Double maxFromList = integerList.get(0).doubleValue();
+        Double sumFromList = integerList.get(0).doubleValue();
+        Double avgFromList = integerList.get(0).doubleValue();
+        for (int i = 1; i < integerList.size(); i++)
+        {
+            if (integerList.get(i).doubleValue() < minFromList) minFromList = integerList.get(i).doubleValue();
+            if (integerList.get(i).doubleValue() > maxFromList) maxFromList = integerList.get(i).doubleValue();
+            sumFromList += integerList.get(i).doubleValue();
+        }
+        avgFromList = sumFromList.doubleValue() / integerList.size();
+        
+        someValueFromList.put("min", minFromList);
+        someValueFromList.put("max", maxFromList);
+        someValueFromList.put("sum", sumFromList);
+        someValueFromList.put("avg", avgFromList);
 
-        logger.info("Конец работы метода удаления четных чисел.");
-        return integerList;
+        logger.info("Конец работы метода поиска минимального, максимального и среднего из списка.");
+        return someValueFromList;
     }
 
     // Вывод массива в строку с сепоратором
