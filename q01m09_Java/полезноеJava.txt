@@ -14,3 +14,8 @@ static String inputStr(String messeage)
 Возвращает стринг.
 Class.forName("test").getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 где test - имя вашего класса
+
+Iterator<Integer> col = array.iterator();
+        while (col.hasNext())
+            if (col.next() % 2 == 0)
+                col.remove();
