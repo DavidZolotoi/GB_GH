@@ -1,0 +1,16 @@
+@Override
+    public boolean equals(Object object) {
+        // TODO Auto-generated method stub
+        Cat obj = (Cat) object;
+        return this.id == obj.id && this.name.equals(obj.name) && this.year == obj.year
+                && (this.breed).equals(obj.breed) && this.sex == obj.sex;
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        return Objects.hash();
+    }
+
+        Set<Cat> cats = new HashSet<>(Arrays.asList(c1, c2, c3, c4, c5));
+        System.out.println(cats);
