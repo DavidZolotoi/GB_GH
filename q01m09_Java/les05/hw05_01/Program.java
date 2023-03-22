@@ -1,6 +1,7 @@
 //package q01m09_Java.les05.hw05_01;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,13 +16,13 @@ public class Program
     public static void main(String[] args)
     {
         // Создать файл с указанным именем рядом с исполняемым файлом
-        String phoneBookPath = GetPathForNewFile("PhoneBook.csv");
+        // String phoneBookPath = GetPathForNewFile("phonebook.csv");
+        //String phoneBookPath = "E:\\VirtualBox\\most\\GB_GH\\q01m09_Java\\les05\\hw05_01\\phonebook.csv";
+        String phoneBookPath = ".\\phonebook.csv";
+        System.out.printf("Файл справочника находится по адресу:\n%s\n", phoneBookPath);
         // Сканер
         Scanner scanner = new Scanner(System.in);
-        // Прочитать файл в строку и расчленить ее на словарь
-        HashMap<String, LinkedList<String>> phoneMap = GetPhoneMap(GetPhoneMapTxt(phoneBookPath));
-        //System.out.println(phoneMap.get("Lastname1 F.").get(0));    // проверка
-        
+          
         // Работа в меню
         Boolean isWork = true;
         while (isWork)
@@ -34,8 +35,8 @@ public class Program
                 case 5: System.out.println("Всего доброго!\n"); isWork = false; break;
                 case 1: System.out.println(ShowPhoneBook(phoneBookPath)); break;
                 case 2: System.out.println(SearchContact(scanner, phoneBookPath)); break;
-                //case 3: AddContact(); break;
-                //case 4: DelContact(); break;
+                case 3: System.out.println(AddContact(scanner, phoneBookPath)); break;
+                case 4: System.out.println(DelContact(scanner, phoneBookPath)); break;
                 default: break;
             }
             
@@ -45,7 +46,86 @@ public class Program
         scanner.close();
     }
 
-    // Поиск контакта -> отчет с данными
+    // пункт меню - удаление контакта
+    private static String DelContact(Scanner scanner, String phoneBookPath)
+    {
+        HashMap<String, LinkedList<String>> phoneMap = GetPhoneMap(GetPhoneMapTxt(phoneBookPath));
+        System.out.println("Введите имя: ");    // запрос имени = ключа
+        String contactName = scanner.nextLine();
+        phoneMap.remove(contactName);
+        WriteNewContactTxt(phoneBookPath, phoneMap);
+        return String.format("Контакт с именем %s удален.", contactName);
+    }
+
+    // пункт меню - добавить контакт
+    private static String AddContact(Scanner scanner, String phoneBookPath)
+    {
+        HashMap<String, LinkedList<String>> phoneMap = GetPhoneMap(GetPhoneMapTxt(phoneBookPath));
+        System.out.println("Введите имя: ");    // запрос имени = ключа
+        String contactName = scanner.nextLine();
+        LinkedList<String> listNumber;
+        if (phoneMap.containsKey(contactName))    //контакт существует?
+        {
+            System.out.println("Такой контакт есть. Желаете добавить для него номеров?\n");
+            listNumber = phoneMap.get(contactName);
+        }
+        else
+        {
+            System.out.printf("Добавление нового контакта %s:\n", contactName);
+            listNumber = new LinkedList<>();
+        }
+        // Сбор новой информации от пользователя
+        System.out.println("Укажите количество номеров для добавления:");
+        Integer countNumbersForAdd = Integer.parseInt(scanner.nextLine());
+        if (countNumbersForAdd == 0) return "Ничего не добавлено";
+        for (int i = 0; i < countNumbersForAdd; i++)
+        {
+            System.out.printf("Введите новый телефон №%d для добавления к контакту: ", i+1);
+            listNumber.add(scanner.nextLine());
+        }
+        // добавить или перезаписать в словарь
+        phoneMap.put(contactName, listNumber);
+        // перезаписать файл
+        WriteNewContactTxt(phoneBookPath, phoneMap);
+        // вернуть данные об обновленном контакте
+        StringBuilder numberForAdd = new StringBuilder();
+        numberForAdd.append(String.format("Обновлены данные для контакта: %s:\n", contactName));
+        Integer countNumbers = 1;
+        for (var numbers : phoneMap.get(contactName))
+        {
+            numberForAdd.append(String.format("Телефон №%d: %s;\n", countNumbers, numbers));
+            countNumbers += 1;
+        }
+        return numberForAdd.toString();
+    }
+
+    // метод записи переданного словаря в файл
+    private static String WriteNewContactTxt(String phoneBookPath, HashMap<String, LinkedList<String>> phoneMap)
+    {
+        StringBuilder newContactInfo = new StringBuilder();
+        try(FileWriter writer = new FileWriter(phoneBookPath, false))
+        {
+            for (var contact : phoneMap.entrySet())
+            {
+                newContactInfo.append(String.format("%s;", contact.getKey()));
+                for (var numbers : contact.getValue())
+                {
+                    newContactInfo.append(String.format("%s;", numbers));
+                }
+                newContactInfo.append(String.format("\n"));
+            }
+            System.out.printf("\nКонтакт для записи:%s\n", newContactInfo.toString());
+            writer.write(newContactInfo.toString());
+            writer.flush();
+        }
+        catch(IOException ex)
+        {
+            System.out.println("Что-то пошло не так:\n" + ex.getMessage());
+        } 
+        return newContactInfo.toString();
+    }
+
+    // Пункт меню - поиск контакта -> отчет с данными
     private static String SearchContact(Scanner scanner, String phoneBookPath)
     {
         HashMap<String, LinkedList<String>> phoneMap = GetPhoneMap(GetPhoneMapTxt(phoneBookPath));
@@ -73,7 +153,7 @@ public class Program
         else return contactInfo;
     }
 
-    // Показ справочника = возврат в виде строки
+    // Пункт меню - показ справочника = возврат в виде строки
     private static String ShowPhoneBook(String phoneBookPath)
     {
         StringBuilder phoneMapToString = new StringBuilder();
@@ -145,8 +225,8 @@ public class Program
         menuTxt.append("******************************\n");
         menuTxt.append("Меню справочника:\n");
         menuTxt.append("1. Показать всё.\n");
-        menuTxt.append("2. Найти контакт.\n");
-        menuTxt.append("3. Добавить контакт.\n");
+        menuTxt.append("2. Найти данные.\n");
+        menuTxt.append("3. Добавить данные.\n");
         menuTxt.append("4. Удалить контакт.\n");
         menuTxt.append("5. Завершить работу программы.\n");
         return menuTxt.toString();

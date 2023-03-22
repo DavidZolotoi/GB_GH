@@ -19,3 +19,6 @@ Iterator<Integer> col = array.iterator();
         while (col.hasNext())
             if (col.next() % 2 == 0)
                 col.remove();
+Iterator<String> i = h.iterator();
+        while (i.hasNext())
+            System.out.println(i.next());
