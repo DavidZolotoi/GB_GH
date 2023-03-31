@@ -7,11 +7,11 @@ public class User
     /**
      * Логин пользовтеля
      */
-    String login;
+    private String login;
     /**
      * Пароль пользовтеля
      */
-    String password;
+    private String password;
     /**
      * Корзина пользовтеля
      */
@@ -19,7 +19,13 @@ public class User
     /**
      * Имущество пользователя
      */
-    LinkedList<Tovar> myTovars;
+    private LinkedList<Tovar> myTovars;
+
+    /**
+     * Добавляет товар в имущество к пользователю
+     * @param tovar товар, который необходимо добавить
+     */
+    public void addTovar(Tovar tovar) { this.myTovars.add(tovar); }
 
     /**
      * Создает пользователя с параметрами
@@ -32,6 +38,4 @@ public class User
         this.password = password;
         this.myTovars = new LinkedList<>();
     }
-
-
 }

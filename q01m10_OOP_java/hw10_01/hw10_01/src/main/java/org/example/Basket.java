@@ -7,7 +7,7 @@ public class Basket
     /**
      * Лист товаров для покупки.
      */
-    LinkedList<Tovar> tovarsForShop;
+    private LinkedList<Tovar> tovarsForShop;
 
     /**
      * Создает экземплаяр корзины.
@@ -15,7 +15,6 @@ public class Basket
     public Basket()
     {
         this.tovarsForShop = new LinkedList<>();
-        System.out.printf("Экземплаяр корзины создан.\n");
     }
 
     /**
@@ -25,7 +24,6 @@ public class Basket
     public Basket(LinkedList<Tovar> tovarsForShop)
     {
         this.tovarsForShop = tovarsForShop;
-        System.out.printf("Экземплаяр корзины, содержащий лист товаров для покупки создан.\n");
     }
 
     /**
@@ -39,11 +37,20 @@ public class Basket
 
     /**
      * Принимает товар для покупки в корзину.
-     * @param tovarForShop товар для добавления в корзину.
+     * @param tovar товар для добавления в корзину.
      */
-    public void add(Tovar tovarForShop)
+    public void addTovar(Tovar tovar)
     {
-        this.tovarsForShop.add(tovarForShop);
+        this.tovarsForShop.add(tovar);
+    }
+
+    /**
+     * Удаляет товар из корзины (например после покупки)
+     * @param tovar товар, который надо удалить (например его купили)
+     */
+    public void delTovar(Tovar tovar)
+    {
+        this.tovarsForShop.remove(this.tovarsForShop.indexOf(tovar));
     }
 
     /**
