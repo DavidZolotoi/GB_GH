@@ -23,3 +23,17 @@ Iterator<Integer> col = array.iterator();
 Iterator<String> i = h.iterator();
         while (i.hasNext())
             System.out.println(i.next());
+
+------------------------
+
+public class Calc12 {
+    public Double sum(List<? extends Number> list){
+        Double sum =0.0;
+        for (Number num:
+             list) {
+            sum+=num.doubleValue();
+
+        }
+        return sum;
+    }
+}
