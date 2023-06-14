@@ -1,0 +1,12 @@
+sudo apt update
+sudo apt install gcc make perl
+sudo ./VBoxLinuxAdditions.run
+
+watch ip a
+watch -n 3 ls
+
+sudo apt install openssh-server
+
+sudo su
+
+ssh vdellubun@192.168.0.106

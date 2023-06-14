@@ -1,0 +1,15 @@
+apt install -y nginx
+
+cd /etc/nginx ll
+
+apt remove nginx   удаляет только его
+apt autoremove     удаляет зависимости
+apt purge nginx и все остальное, что установлено в зависимостях - тогда удаляются даже конфиги
+
+apt -f install
+
+cd /etc/apt/sources.list.d ll
+
+/etc/crontab
+/etc/cron.daily  скрипты для кронтаба
+crontab -e     создать для пользователя
