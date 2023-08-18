@@ -30,9 +30,10 @@
 */
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
-
-import static sun.security.jca.JCAUtil.def;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,7 +41,7 @@ public class Main {
         Scanner  scanner = new Scanner(System.in);
 
         // Метод, запрашивающий (и распознающий) у пользователя новые данные одной строкой
-        String[] inputTxt = inputAndParseNewData(scanner);
+        ArrayList<String> inputTxt = inputAndParseNewData(scanner);
 
         // Метод, создающий файл с названием, равным фамилии
         createFileWithNewData(inputTxt);
@@ -49,7 +50,7 @@ public class Main {
         scanner.close();
     }
 
-    private static void createFileWithNewData(String[] inputTxt) {
+    private static void createFileWithNewData(ArrayList<String> inputTxt) {
     }
 
     /**
@@ -57,23 +58,24 @@ public class Main {
      * @param scanner сканер
      * @return полученные данные
      */
-    private static String[] inputAndParseNewData(Scanner scanner) {
+    private static ArrayList<String> inputAndParseNewData(Scanner scanner) {
         Boolean isInputCorrect = false;
-        String[] newData = new String[];
+        ArrayList<String> newData = new ArrayList<>();
 
         while (!isInputCorrect){
             try {
                 System.out.println("Введите данные для добавления: ");
                 String newDataTxt = scanner.nextLine();
                 newData = newDataTxtParse(newDataTxt);
-                // Если дошли сюда, значит исключение не было выкинуто => распознали, но может быть код ошибки
+                // Если дошли сюда, значит исключение не было выкинуто => распознали,
+                // но может быть код ошибки, говорящий о неправильном количестве данных
                 isInputCorrect = true;
-                if (newData[0].equals("-1")) {
+                if (newData.get(0).equals("-1")) {
                     System.out.println("Метод newDataTxtParse() завершил работу с кодом ошибки \"-1\".\n" +
                             "Введено меньшее кол-во данных, чем ожидалось. Попробуйте еще раз.");
                     isInputCorrect = false;
                 }
-                if (newData[0].equals("+1")) {
+                if (newData.get(0).equals("+1")) {
                     System.out.println("Метод newDataTxtParse() завершил работу с кодом ошибки \"+1\".\n" +
                             "Введено большее кол-во данных, чем ожидалось. Попробуйте еще раз.");
                     isInputCorrect = false;
@@ -83,9 +85,8 @@ public class Main {
                                 e.toString() + ". Попробуйте еще раз.");
                 isInputCorrect = false;
             }
-
         }
-
+        // Если дошли сюда, значит был корректный ввод
         return newData;
     }
 
@@ -94,75 +95,127 @@ public class Main {
      * @param newDataTxt данные для распознавания
      * @return Либо распознанные данные, либо код ошибки, либо исключение
      */
-    private static String[] newDataTxtParse(String newDataTxt) {
-        String[] newData = newDataTxt.split(" ");
+    private static ArrayList<String> newDataTxtParse(String newDataTxt) {
+        // Убираем все лишние пробелы и пробелы по краям строки
+        newDataTxt = newDataTxt.trim().replaceAll(" +", " ");
+
+        // Получаем список подстрок, разделенных пробелом
+        ArrayList<String> newData = new ArrayList<>(Arrays.asList(newDataTxt.split(" ")));
 
         // Проверка кол-ва данных и возврат кода ошибки в случае необходимости
-        if (newData.length < 6) return new String[]{"-1"};  // Что говорит о том, что введено меньшее кол-во данных
-        if (newData.length > 6) return new String[]{"+1"};  // Что говорит о том, что введено большее кол-во данных
+        if (newData.size() < 6)
+            return new ArrayList<>(List.of("-1"));  // Что говорит о том, что введено меньшее кол-во данных
+        if (newData.size() > 6)
+            return new ArrayList<>(List.of("+1"));  // Что говорит о том, что введено большее кол-во данных
 
-        // Распознавание элементов в цикле
-        for (int i = 0; i < newData.length; i++) {
-            var element = newData[i];
-            int n=0;    // количество методов, успешно распознавших элемент
+        // Распознавание каждого из элементов в цикле
+        String  fullName = newDataTxt,
+                phoneNumber = null, dateOfBirth = null, gender = null;
+        for (String element : newData) {
+            int countSuccessfullyTriggered = 0;    // количество методов, успешно распознавших элемент
 
-            // Переменная с фамилией, именем и отчеством
-            String fullName = fullNameParse(element);
-            if (fullName != null) n++;
+            // Распознаем символьное слово (фамилию, имя или отчество)
+            String word = wordParse(element);
+            if (word != null) countSuccessfullyTriggered++;
 
-            // Переменная с номером телефона
-            String phoneNumber = phoneNumberParse(element);
-            if (phoneNumber != null) n++;
+            // Распознаем номер телефона, при успехе стираем его из fullName
+            phoneNumber = phoneNumberParse(element);
+            if (phoneNumber != null) {
+                countSuccessfullyTriggered++;
+                fullName = fullName.replace(phoneNumber, "");
+            }
 
-            // Переменная с датой рождения
-            String dateOfBirth = dateOfBirthParse(element);
-            if (dateOfBirth != null) n++;
+            // Распознаем дату рождения, при успехе стираем ее из fullName
+            dateOfBirth = dateOfBirthParse(element);
+            if (dateOfBirth != null) {
+                countSuccessfullyTriggered++;
+                fullName = fullName.replace(dateOfBirth, "");
+            }
 
-            // Переменная с полом
-            String gender = genderParse(element);
-            if (gender != null) n++;
+            // Распознаем пол, при успехе стираем его из fullName
+            gender = genderParse(element);
+            if (gender != null) {
+                countSuccessfullyTriggered++;
+                fullName = fullName.replace(gender, "");
+            }
 
             // Если текущий элемент распознали разные методы распознавания todo выбросить исключение
-            if (n>1) System.out.println("Что-то пошло не так! Неоднозначное значение.");
+            if (countSuccessfullyTriggered > 1) System.out.println("Что-то пошло не так! Неоднозначное значение.");
             // Если текущий элемент не распознал ни один из методов распознавания todo выбросить исключение
-            if (n==0) System.out.println("Что-то пошла не так! Значение не распознано.");
+            if (countSuccessfullyTriggered == 0) System.out.println("Что-то пошла не так! Значение не распознано.");
         }
 
-        return newData;
+        // После цикла в переменной fullName должны остаться только ФИО + возможно пробелы
+        fullName = fullNameParse(fullName);
+
+        return new ArrayList<>(Arrays.asList(fullName, dateOfBirth, phoneNumber, gender));
+    }
+
+    /**
+     * Метода распознавания ФИО
+     * @param inputTextForParse входные данные для распознавания
+     * @return распознанное значение - ФИО
+     */
+    private static String fullNameParse(String inputTextForParse) {
+        // Убираем все лишние пробелы и пробелы по краям строки
+        String fullName = inputTextForParse.trim().replaceAll(" +", " ");
+        // Проверяем, что слов ровно 3 и что строка не пуста
+        if (fullName.split(" ").length != 3 || fullName.isEmpty() || fullName.isBlank()) {
+
+            // todo выбросить исключение
+
+        }
+        return fullName;
     }
 
     /**
      * Метод распознавания пола
-     * @param element элемент, значение которого нужно распознать
-     * @return распознанное значение или null
+     * @param inputTextForParse входные данные для распознавания
+     * @return распознанное значение - пол или null
      */
-    private static String genderParse(String element) {
+    private static String genderParse(String inputTextForParse) {
         // Если в элементе записан символ 'f' или 'm', то это пол
-        if (element.matches("[fm]")) {
-            return element;
+        if (inputTextForParse.matches("[fm]")) {
+            return inputTextForParse;
         }
         return null;
     }
 
-    private static String dateOfBirthParse(String element) {
+    /**
+     * Метод распознавания дня рождения
+     * @param inputTextForParse входные данные для распознавания
+     * @return распознанное значение - день рождения или null
+     */
+    private static String dateOfBirthParse(String inputTextForParse) {
         // Если в элементе записана строка с датой формата dd.mm.yyyy, то это дата рождения
-        if (element.matches("[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}")) {
+        if (inputTextForParse.matches("[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}")) {
             // ...
         }
         return null;
     }
 
-    private static String phoneNumberParse(String element) {
+    /**
+     * Метод распознавания номера телефона
+     * @param inputTextForParse входные данные для распознавания
+     * @return распознанное значение - номер телефона или null
+     */
+    private static String phoneNumberParse(String inputTextForParse) {
         // Если в элементе записана строка с числом, то это номер телефона
-        if (element.matches("[0-9]+") && element.length() >= 3) {
+        if (inputTextForParse.matches("[0-9]+") && inputTextForParse.length() >= 3) {
             // ...
         }
         return null;
     }
 
-    private static String fullNameParse(String element) {
+    /**
+     * Метод распознавания строки из символов алфавита
+     * @param inputTextForParse входные данные для распознавания
+     * @return распознанное значение - строка или null
+     */
+    private static String wordParse(String inputTextForParse) {
         // Если в элементе записана строка с количеством символов больше 1, то это Фамилия, Имя или Отчество
-        if (element.matches("[a-zA-Z]+") && element.length() > 1) {
+        if (inputTextForParse.matches("[a-zA-Z]+") || inputTextForParse.matches("[а-яА-Я]+")
+                && inputTextForParse.length() > 1) {
             // ...
         }
         return null;
