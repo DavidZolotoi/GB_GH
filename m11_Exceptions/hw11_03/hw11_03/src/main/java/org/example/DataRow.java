@@ -110,12 +110,12 @@ public class DataRow {
                 newData.fullName = newData.fullName.replace(newData.gender.toString(), "");
             }
 
-            // Если текущий элемент распознали разные методы распознавания todo выбросить исключение
+            // Если текущий элемент распознали разные методы распознавания, то выбросить исключение
             if (countTriggered > 1){
                 System.out.println("Что-то пошло не так! Неоднозначное значение \"" + element + "\".");
                 throw new IllegalArgumentException("Значение \"" + element + "\" вызывает проблемы распознавания.");
             }
-            // Если текущий элемент не распознал ни один из методов распознавания todo выбросить исключение
+            // Если текущий элемент не распознал ни один из методов распознавания, то выбросить исключение
             if (countTriggered == 0) {
                 System.out.println("Что-то пошло не так! Значение \"" + element + "\" не распознано.");
                 throw new IllegalArgumentException("Значение \"" + element + "\" вызывает проблемы распознавания.");
@@ -147,10 +147,9 @@ public class DataRow {
         inputTextForParse = inputTextForParse.trim().replaceAll(" +", " ");
         // Если в элементе записан символ 'f' или 'm', то это пол
         if (inputTextForParse.matches("m") || inputTextForParse.matches("f")) {
-            System.out.println("Пол: " + inputTextForParse.toCharArray()[0]);
+            //System.out.println("Пол: " + inputTextForParse.toCharArray()[0]);
             return inputTextForParse.toCharArray()[0];
         }
-        // System.out.println("Не получается распознать пол из подстроки \"" + inputTextForParse + "\".");
         return null;
     }
 
@@ -165,7 +164,7 @@ public class DataRow {
         // Если в элементе записана строка с датой формата dd.mm.yyyy, то это дата рождения
         if (inputTextForParse.matches("[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}")) {
             try {
-                System.out.println("Дата: " + DataRow.formatter.parse(inputTextForParse));
+                //System.out.println("Дата: " + DataRow.formatter.parse(inputTextForParse));
                 return DataRow.formatter.parse(inputTextForParse);
             } catch (ParseException ex) {
                 System.out.println(
@@ -188,7 +187,7 @@ public class DataRow {
         // Если в элементе записана строка с числом, то это номер телефона
         if (inputTextForParse.matches("[0-9]+") && inputTextForParse.length() >= 3) {
             try {
-                System.out.println("Номер: " + Long.parseLong(inputTextForParse) );
+                //System.out.println("Номер: " + Long.parseLong(inputTextForParse) );
                 return Long.parseLong(inputTextForParse);
             } catch (NumberFormatException ex){
                 System.out.println(
@@ -210,10 +209,9 @@ public class DataRow {
         String fullName = inputTextForParse.trim().replaceAll(" +", " ");
         // Проверяем, что слов ровно 3 и что строка не пуста
         if (fullName.split(" ").length == 3 && !fullName.isEmpty() && !fullName.isBlank()) {
-            System.out.println("ФИО: " + fullName);
+            //System.out.println("ФИО: " + fullName);
             return fullName;
         }
-        // System.out.println("Не получается распознать ФИО из подстроки \"" + inputTextForParse + "\". ");
         return null;
     }
 
@@ -230,10 +228,9 @@ public class DataRow {
         if (  inputTextForParse.length() > 1 &&
               (  inputTextForParse.matches("[a-zA-Z]+") || inputTextForParse.matches("[а-яА-Я]+")  )
         ) {
-            System.out.println("Слово:  " + inputTextForParse);
+            //System.out.println("Слово:  " + inputTextForParse);
             return inputTextForParse;
         }
-        // System.out.println("Не получается распознать инициал из подстроки \"" + inputTextForParse + "\". ");
         return null;
     }
 }

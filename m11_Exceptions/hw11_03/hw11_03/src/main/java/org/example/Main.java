@@ -30,6 +30,8 @@
 */
 package org.example;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -38,23 +40,51 @@ public class Main {
         // Открытие сканера
         Scanner  scanner = new Scanner(System.in);
 
-        // Метод, запрашивающий (и распознающий) у пользователя новые данные одной строкой
-        DataRow newData = inputAndParseNewData(scanner);
+        // "Бесконечный" ввод новых данных
+        while (true){
+            // Метод, запрашивающий (и распознающий) у пользователя новые данные одной строкой
+            DataRow newData = inputAndParseNewData(scanner);
 
-        // Метод, создающий файл с названием, равным фамилии
-        createFileWithNewData(newData);
+            // Код, создающий файл с названием, равным фамилии и дозаписывающий в него данные
+            try{
+                createFileWithNewData(newData);
+            } catch (WriteInFileException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+
+            // Выход из бесконечного цикла
+            System.out.println("Завершить работу?\n" +
+                    "Введите символ y или Y для завершения или любой другой ввод для продолжения ввода");
+            if(scanner.nextLine().equals("y") || scanner.nextLine().equals("Y")){
+                break;
+            }
+        }
 
         // Закрытие сканера
         scanner.close();
     }
 
-    private static void createFileWithNewData(DataRow newData) {
+    /**
+     * Метод, создающий новый файл, в наименовании которого фамилия из данных
+     * @param newData данные, которые необходимо запиковать в фаил
+     * @throws WriteInFileException Ошибка связанная с сохранением
+     */
+    private static void createFileWithNewData(DataRow newData) throws WriteInFileException {
+        String fileName = newData.getFullName().split(" ")[0];
+        try (FileWriter writer = new FileWriter(fileName, true)){
+            writer.write(newData.toString());
+            writer.flush();
+        } catch (IOException e){
+            throw new WriteInFileException("Ошибка связанная с сохранением", e);
+        }
+
     }
 
     /**
      * Метод, получения данных
      * @param scanner сканер
-     * @return полученные данные
+     * @return полученные данные. Могут быть выброшены исключения и коды ошибок
      */
     private static DataRow inputAndParseNewData(Scanner scanner) {
         Boolean isInputCorrect = false;
