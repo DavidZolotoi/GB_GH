@@ -73,7 +73,7 @@ public class Main {
     private static void createFileWithNewData(DataRow newData) throws WriteInFileException {
         String fileName = newData.getFullName().split(" ")[0];
         try (FileWriter writer = new FileWriter(fileName, true)){
-            writer.write(newData.toString());
+            writer.write(newData.toString() + "\n");
             writer.flush();
         } catch (IOException e){
             throw new WriteInFileException("Ошибка связанная с сохранением", e);
