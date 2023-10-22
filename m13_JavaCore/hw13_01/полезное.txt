@@ -1,0 +1,9 @@
+1. Скомпилировать
+javac \
+-sourcepath .\src\main\java\ \			(откуда взять всё)
+src\main\java\ru\example\Main.java \		(где точка входа)
+-d .\out \					(куда компилить)
+-encoding utf-8					(поддерживать рус)
+В результате появится папка out в корне и в ней новый Main.class
+2. Запустить
+java -classpath .\out org.example.Main
