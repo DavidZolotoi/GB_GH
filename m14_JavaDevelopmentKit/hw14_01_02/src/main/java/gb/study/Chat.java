@@ -101,22 +101,22 @@ public class Chat extends JFrame {
         setSize(windowWidth, windowHeigh);
         setLocationRelativeTo(null);
         add(serverPanel, BorderLayout.NORTH);
-            serverPanel.setLayout(new GridLayout(3, 2 ));
+            serverPanel.setLayout(new GridLayout(4, 2 ));
             serverPanel.add(loginLabel);
             serverPanel.add(loginTextField);
             serverPanel.add(passwordLabel);
             serverPanel.add(passwordTextField);
             serverPanel.add(IpLabel);
             serverPanel.add(IpTextField);
+            serverPanel.add(connectButton);
         add(messagePanel, BorderLayout.CENTER);
             messagePanel.setLayout(new GridLayout(1, 1));
             messagePanel.add(messageLabel);
             messagePanel.add(new JScrollPane(messageTextArea));
         add(clientPanel, BorderLayout.SOUTH);
-            clientPanel.setLayout(new GridLayout(3, 1));
+            clientPanel.setLayout(new GridLayout(2, 1));
             clientPanel.add(messageTextField);
             clientPanel.add(sendButton);
-            clientPanel.add(connectButton);
 
         // ПОКАЗАТЬ
         setVisible(true);
