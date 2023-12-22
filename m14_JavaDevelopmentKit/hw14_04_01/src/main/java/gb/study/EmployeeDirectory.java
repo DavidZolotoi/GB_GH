@@ -1,9 +1,7 @@
 package gb.study;
 
 import java.time.Duration;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Optional;
+import java.util.*;
 
 public class EmployeeDirectory implements Iterable{
     LinkedHashMap<Integer, Employee> myMap;
@@ -17,16 +15,10 @@ public class EmployeeDirectory implements Iterable{
     }
 
     public Employee searchEmployeeByExperience(Duration experience) {
-//        return myMap.values().stream()
-//                .sorted()
-//                .filter(value -> value.experience() == experience)
-//                .findFirst().get();
-        Employee employee = new Employee();
-        for (var myValue : myMap.values()) {
-            if(myValue.experience().equals(experience))
-                employee = myValue;
-        }
-        return employee;
+        return myMap.values().stream()
+                .sorted(Employee.comparatorByName())
+                .filter(value -> value.experience().toDays() == experience.toDays())
+                .findFirst().get();
     }
 
     public Employee searchEmployeeByName(String name) {

@@ -2,6 +2,7 @@ package gb.study;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 public class Employee {
     private Integer id;
@@ -20,6 +21,15 @@ public class Employee {
 
     protected Duration experience(){
         return Duration.between(LocalDateTime.now(), gotJob);
+    }
+
+    public static Comparator<Employee> comparatorByName() {
+        return new Comparator<Employee>() {
+            @Override
+            public int compare(Employee e1, Employee e2) {
+                return e1.getName().compareTo(e2.getName());
+            }
+        };
     }
 
     public Integer getId() {
