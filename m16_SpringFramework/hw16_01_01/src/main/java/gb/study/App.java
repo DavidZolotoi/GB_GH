@@ -24,5 +24,6 @@ public class App
         // Deserialize from JSON
         Person personFromJson = gson.fromJson(personJson, Person.class);
         System.out.println("Десериализованный из json объект Person:\n" + personFromJson);
+
     }
 }
