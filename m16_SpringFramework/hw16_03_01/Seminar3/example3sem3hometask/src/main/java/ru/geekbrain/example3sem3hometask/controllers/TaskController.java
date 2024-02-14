@@ -2,6 +2,7 @@ package ru.geekbrain.example3sem3hometask.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrain.example3sem3hometask.domain.User;
@@ -14,9 +15,15 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
 
+    /**
+     * Экземпляр службы обработки данных
+     */
     @Autowired
     private DataProcessingService service;
 
+    /**
+     * @return коллекцию всех задач
+     */
     @GetMapping
     public List<String> getAllTasks()
     {
@@ -27,15 +34,30 @@ public class TaskController {
         return  tasks;
     }
 
+    /**
+     * @return коллекцию сортированных по возрасту пользователей
+     */
     @GetMapping("/sort")//localhost:8080/tasks/sort
     public List<User> sortUsersByAge()
     {
         return service.sortUsersByAge(service.getRepository().getUsers());
     }
 
-    //метод filterUsersByAge
-    //Подсказка  @GetMapping("/filter/{age}")
+    /**
+     * @return коллекцию фильтрованных по возрасту пользователей
+     */
+    @GetMapping("/filter/{age}")//localhost:8080/tasks/filter/{age}
+    public List<User> filterUsersByAge(@PathVariable("age") Integer age)
+    {
+        return service.filterUsersByAge(service.getRepository().getUsers(), age);
+    }
 
-    //метод calculateAverageAge
-    //Подсказка  @GetMapping("/calc")
+    /**
+     * @return средний возраст пользователей
+     */
+    @GetMapping("/calc")//localhost:8080/calc
+    public double calculateAverageAge()
+    {
+        return service.calculateAverageAge(service.getRepository().getUsers());
+    }
 }
