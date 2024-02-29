@@ -14,8 +14,6 @@ public class Book {
     private String title;
     private String author;
 
-    /* код ниже означает, что у одного читателя может быть несколько книг и
-    * в таблице книг будет колонка reader_id, которая ссылается на id читателя*/
     @ManyToOne
     @JoinColumn(name = "reader_id")
     private Reader reader;
