@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Equations</title>
+</head>
+<body>
+    <h1>Квадратные уравнения</h1>
+    <h1>вида a * x^2 + b * x + c = 0<h1>
+    <h2>Таблица решенных уравнений</h2>
+    <table>
+        <tr>
+            <th>Исходное уравнение</th>
+            <th>Решение уравнения</th>
+        </tr>
+        <tr th:each="e: ${equations}" >
+            <td th:text="${e.equation}"></td>
+            <td th:text="${e.solution}"></td>
+        </tr>
+    </table>
+
+    <h2>Добавить уравнение</h2>
+    <form action="/equations" method="post">
+        Коэффициент `a`: <input type="number" name="a"><br />
+        Коэффициент `b`: <input type="number" name="b"><br />
+        Коэффициент `c`: <input type="number" name="c"><br />
+        Количество знаков после запятой: <input type="number" name="precision"><br />
+        <button type="submit">Добавить</button>
+    </form>
+</body>
+</html>
