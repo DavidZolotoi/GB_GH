@@ -1,0 +1,6 @@
+по инструкции с сайта https://hub.docker.com/r/prom/prometheus
+
+docker run \
+    -p 9090:9090 \
+    -v /path/to/prometheus.yml:/etc/prometheus/prometheus.yml \
+    prom/prometheus
